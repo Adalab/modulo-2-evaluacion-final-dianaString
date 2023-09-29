@@ -12,10 +12,10 @@ des/marcar las series como favoritas y guardarlas en local storage.
 - [x] Renderizar en pantalla los datos de la Api
 
 #### 2. Búsqueda:
-- [ ] Conectar la búsqueda con la Api
-- [ ] Recoger el contenido introduc. en la búsqueda
-- [ ] Comparar resultado y renderizarlo
-- [ ] Mostrar una imagen de relleno en caso de no haber imagen
+- [x] Conectar la búsqueda con la Api
+- [x] Recoger el contenido introduc. en la búsqueda
+- [x] Comparar resultado y renderizarlo
+- [x] Mostrar una imagen de relleno en caso de no haber imagen
 
 #### 3. Favoritos:
 - [ ] Al hacer click en una serie, se destaca como favorita

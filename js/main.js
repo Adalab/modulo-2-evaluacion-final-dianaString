@@ -30,6 +30,9 @@ getApiData();
 
 // renderizar show de lista de shows
 function renderTVshowList(TVshowsList){
+
+    listContainer.textContent = '';
+
     // console.log(TVshowsList[0].show.name)
     // ul > li > article > img y título
 
@@ -41,7 +44,6 @@ function renderTVshowList(TVshowsList){
 
         // Añadir un article
         const articleElement = document.createElement('article');
-        // articleElement.textContent = TVshow.name;
         liElement.appendChild(articleElement);
 
         // Añadir una imagen
@@ -59,3 +61,25 @@ function renderTVshowList(TVshowsList){
         articleElement.appendChild(h3Element);
     }
 };
+
+
+// HANDLER
+
+// buscador
+function handleClick(){
+    //console.log('Hi')
+    const searchValue = searchText.value;
+
+    const filteredTVShows = TVshowsList
+        .filter(TVshow => TVshow.show.name  // Filtra los nombres de los shows en TVshowsList
+            .toLowerCase()                  // Llamada al método que convierte texto en minúsc.
+            .includes(searchValue           // Llamada al método, ¿su parám. se encuentra en el show?
+                .toLowerCase())             // Llamada de nuevo al met. minúsc. pero para el texto en searchValue
+        );   
+
+    renderTVshowList(filteredTVShows);   // en lugar de TVshowsList porque filteredTVShows muestra lo filtrado
+}
+
+
+// EVENT / LISTENER
+searchBtn.addEventListener('click', handleClick);
