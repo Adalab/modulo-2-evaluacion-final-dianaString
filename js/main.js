@@ -66,8 +66,9 @@ function renderTVshowList(TVshowsList){
 // HANDLER
 
 // buscador
-function handleClick(){
-    //console.log('Hi')
+function handleClick(event){
+
+    event.preventDefault();
     const searchValue = searchText.value;
 
     const filteredTVShows = TVshowsList
