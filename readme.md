@@ -8,8 +8,8 @@ des/marcar las series como favoritas y guardarlas en local storage.
 ### Objetivos:
 
 #### 1. Estructura básica:
-- [ ] Conectar la Url de la Api con el código
-- [ ] Renderizar en pantalla los datos de la Api
+- [x] Conectar la Url de la Api con el código
+- [x] Renderizar en pantalla los datos de la Api
 
 #### 2. Búsqueda:
 - [ ] Conectar la búsqueda con la Api
