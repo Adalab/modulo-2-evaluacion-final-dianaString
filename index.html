@@ -10,14 +10,22 @@
     <header>
         <h1>Buscador de series</h1>
     </header>
-    <main>
+    <main class="main">
         
-        <!-- Buscador -->
-        <input type="text" value="" class="js-searchText">
-        <input type="submit" value="Search" class="js-searchBtn">
+        <section class="searchFavSection">
+            <!-- Buscador -->
+            <input type="text" value="" class="js-searchText">
+            <input type="submit" value="Search" class="js-searchBtn">
 
-        <!-- Lista de series -->
-        <ul class="js-listContainer"></ul>
+            <!-- Favoritos -->
+            <ul class="js-listFavorites"></ul>
+        </section>
+
+        <section class="showListSection">
+            <!-- Lista de series -->
+            <ul class="js-listContainer"></ul>
+            
+        </section>
 
     </main>
     <script src="js/main.js"></script>

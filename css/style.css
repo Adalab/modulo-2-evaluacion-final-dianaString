@@ -1,0 +1,27 @@
+.main {
+    display: flex;
+    gap: 50px;
+}
+
+.searchFavSection {
+    background-color: antiquewhite;
+}
+
+.showListSection {
+    background-color: aliceblue;
+}
+
+.card {
+    padding: 10px;
+    background-color: cadetblue;
+    margin-bottom: 10px;
+}
+
+img {
+    display: block;
+}
+
+.favoriteStyle{
+    background-color: black !important;
+    color: white !important;
+}
