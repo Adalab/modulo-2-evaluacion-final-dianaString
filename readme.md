@@ -18,9 +18,9 @@ des/marcar las series como favoritas y guardarlas en local storage.
 - [x] Mostrar una imagen de relleno en caso de no haber imagen
 
 #### 3. Favoritos:
-- [ ] Al hacer click en una serie, se destaca como favorita
-- [ ] Mostrar listado en la parte izda. de la pantalla
-- [ ] Las series fav. se mantienen a la izda. aunque se realice otra búsqueda
+- [x] Al hacer click en una serie, se destaca como favorita
+- [x] Mostrar listado en la parte izda. de la pantalla
+- [x] Las series fav. se mantienen a la izda. aunque se realice otra búsqueda
 
 #### 4. Almacenamiento local:
 - [ ] Almacenar el listado de favoritos en el LocalStorage
