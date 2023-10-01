@@ -23,8 +23,8 @@ des/marcar las series como favoritas y guardarlas en local storage.
 - [x] Las series fav. se mantienen a la izda. aunque se realice otra búsqueda
 
 #### 4. Almacenamiento local:
-- [ ] Almacenar el listado de favoritos en el LocalStorage
-- [ ] Al recargar la página debería seguir mostrándose  
+- [x] Almacenar el listado de favoritos en el LocalStorage
+- [x] Al recargar la página debería seguir mostrándose  
 
 <br>
 
