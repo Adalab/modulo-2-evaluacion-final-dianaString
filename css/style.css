@@ -21,7 +21,7 @@ img {
     display: block;
 }
 
-.favoriteStyle{
-    background-color: black !important;
-    color: white !important;
+.js-listShowContainer .favoriteStyle {
+    background-color: black ;
+    color: white ;
 }
