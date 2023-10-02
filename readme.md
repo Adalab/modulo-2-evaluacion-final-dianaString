@@ -43,5 +43,9 @@ des/marcar las series como favoritas y guardarlas en local storage.
 *El límite de entrega es el **lunes 2 de octubre a las 14:00**.*
 
 #### La evaluación solo se considerará terminada cuando:
-- [ ] Esté publicada en GitHub Pages y esté funcionando.
-- [ ] El enlace a GitHub Pages esté en la página página principal del repositorio, en la parte superior, al lado de la descripción.
+- [x] Esté publicada en GitHub Pages y esté funcionando.
+- [x] El enlace a GitHub Pages esté en la página página principal del repositorio, en la parte superior, al lado de la descripción.
+
+<br>
+
+_**Terminado!!** http://beta.adalab.es/modulo-2-evaluacion-final-dianaString/_  🥳🥳
