@@ -21,7 +21,7 @@ img {
     display: block;
 }
 
-.js-listShowContainer .favoriteStyle {
+.js-listShowContainer .highlightFav {
     background-color: black ;
     color: white ;
 }

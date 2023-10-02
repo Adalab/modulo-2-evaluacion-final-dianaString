@@ -1,22 +1,24 @@
 'use strict'
 
-// VARIABLES --------------------------------
+// VARIABLES DEL HTML ------------------------------------------------------
 
-// Del HTML
-const searchText = document.querySelector('.js-searchText'); // input (texto)
-const searchBtn = document.querySelector('.js-searchBtn');   // input (input)
+// Buscador
+const searchText = document.querySelector('.js-searchText'); 
+const searchBtn = document.querySelector('.js-searchBtn');   
 
-const listShowContainer = document.querySelector('.js-listShowContainer'); // ul
-const listFavContainer = document.querySelector('.js-listFavContainer');   // ul
+// Container (contenedor de las listas)
+const listShowContainer = document.querySelector('.js-listShowContainer'); 
+const listFavContainer = document.querySelector('.js-listFavContainer');  
 
-const clearAllBtn = document.querySelector('.js-clearAllBtn'); // input (clearAll)
+// Borrar lista de favoritos
+const clearAllBtn = document.querySelector('.js-clearAllBtn'); 
 
-// Arrays (Listas)
+// ARRAYS (las listas) -----------------------------------------------------
+
 let TVshowsList = [];      
 let favoriteShowList = []; 
 
-
-// LOCAL STORAGE (GET) ---------------------------                             
+// LOCAL STORAGE (GET) -----------------------------------------------------    
 
 const favoriteShowsLS = JSON.parse(localStorage.getItem("settedFavShows"));
 
@@ -28,15 +30,14 @@ if (favoriteShowsLS !== null) {
     getApiData();
 }
 
+// FUNCIONES ---------------------------------------------------------------
 
-// FUNCIONES -------------------------------------
-
-// fetch
+// Fetch
 function getApiData(){
-    // Url
+
     const searchValue = searchText.value;
     const API_URL = `//api.tvmaze.com/search/shows?q=${searchValue}`;
-    //console.log('API_URL', API_URL)
+
     fetch(API_URL)
         .then((response) => response.json())
         .then((dataAPI) => {
@@ -50,50 +51,30 @@ function renderList(container, itemList) {
     container.textContent = '';
 
     for (const item of itemList) {
+        // ul > li > article > + img + h3
         
-        // Crea un li
         const liElement = document.createElement('li');
         container.appendChild(liElement);
 
-        // Crea un article (card)
         const articleElement = document.createElement('article');
         articleElement.classList.add('card');
-        articleElement.id = item.show.id;
+        articleElement.id = item.show.id;        
         liElement.appendChild(articleElement);
 
-        if (favoriteShowList.some(Favshow => Favshow.show.id === item.show.id)) {
-            articleElement.classList.add('favoriteStyle');
+        // Si el item está en la lista de fav. añade la clase Highlight (highlightFav) 
+        if (favoriteShowList.some(favshow => favshow.show.id === item.show.id)) {
+            articleElement.classList.add('highlightFav');
         }
 
-        // Crea un button (x)
+        // Si el container es el de favoritos crea un button (x)
         if(container === listFavContainer){
             const xButton = document.createElement('button');
             xButton.classList.add('xButtonStyle');
             xButton.textContent = 'x';
-            xButton.id = item.show.id;
+            xButton.id = item.show.id;      
             articleElement.appendChild(xButton);
-
-            xButton.addEventListener('click', () => {
-                const li = xButton.closest('li');
-                const idFavClicked = parseInt(xButton.id);
-            
-                favoriteShowList = favoriteShowList.filter(Favshow => Favshow.show.id !== idFavClicked);
-
-                const isFavorite = favoriteShowList.some(Favshow => Favshow.show.id === idFavClicked);
-                const articleInShowContainer = listShowContainer.querySelector(`article[id="${idFavClicked}"]`);
-
-                if (articleInShowContainer && !isFavorite) {
-                    articleInShowContainer.classList.remove('favoriteStyle');
-                }
-
-                li.remove();
-            
-                // LOCAL STORAGE (SET) -----------------
-                localStorage.setItem('settedFavShows', JSON.stringify(favoriteShowList)) 
-            })
         }
 
-        // Crea una imagen
         const imgElement = document.createElement('img');
         if (item.show.image === null) {
             imgElement.src = 'https://fakeimg.pl/210x295?text=TV';
@@ -102,20 +83,18 @@ function renderList(container, itemList) {
         }
         articleElement.appendChild(imgElement);
 
-        // Crea un h3 (título)
         const h3Element = document.createElement('h3');
         h3Element.textContent = item.show.name;
         articleElement.appendChild(h3Element);
-
     }
 }
 
-// HANDLERS --------------------------------
+// HANDLERS ----------------------------------------------------------------
 
 // Buscador
 function handleSearch(event) {
     event.preventDefault();
-    getApiData();
+    getApiData(); // para enlazar la Api con la búsqueda
     const searchValue = searchText.value;
 
     const filteredTVShows = TVshowsList
@@ -126,57 +105,59 @@ function handleSearch(event) {
 }
 
 // Favoritos
-function handleFavorite(event){
-   
-    if (event.target.closest('article')) {
-        const clickedArticle = event.target.closest('article');
-        const articleElements = listShowContainer.querySelectorAll('article');
+function handleManageFavorites(event) {
 
-        // CREA LA LISTA DE FAVORITOS (mediante IDs) --------------
+    const clickedElement = event.target; 
 
-        const idShowClicked = parseInt(clickedArticle.id);
-        const foundShow = TVshowsList.find(TVshow => TVshow.show.id === idShowClicked);
-        const indexFav = favoriteShowList.findIndex(TVshow => TVshow.show.id === idShowClicked);
+    const clickedArticle = clickedElement.closest('article'); // closest() -> él mismo y sus hijos
+    const clickedXbtn = clickedElement.closest('button');
 
-            if (indexFav === -1) {
-                favoriteShowList.unshift(foundShow);
-                foundShow.isFavorite = true;
-            } else {
-                favoriteShowList.splice(indexFav, 1);
-                foundShow.isFavorite = false;
+    if ((event.currentTarget === listShowContainer && clickedArticle) ||
+        (event.currentTarget === listFavContainer && clickedXbtn)) {
+            
+        const clickedShowID = parseInt(clickedArticle.id);
+        let foundShow = TVshowsList.find(TVshow => TVshow.show.id === clickedShowID);
+        const indexFav = favoriteShowList.findIndex(TVshow => TVshow.show.id === clickedShowID);
+
+        // selecciona en el container del listado de series aquellas que sean favoritos
+        const HighlightedTVShows = listShowContainer.querySelector(`article[id="${clickedShowID}"]`);
+
+        if (indexFav === -1) {
+            favoriteShowList.unshift(foundShow);
+
+            HighlightedTVShows.classList.add('highlightFav');
+
+        } else {
+            favoriteShowList.splice(indexFav, 1);
+
+            if(HighlightedTVShows){ 
+                HighlightedTVShows.classList.remove('highlightFav');
             }
-
-            if (foundShow.isFavorite) {
-                clickedArticle.classList.add('favoriteStyle');
-            } else {
-                clickedArticle.classList.remove('favoriteStyle');
-            }
-
-        console.log(foundShow.isFavorite);
-
+        }
         renderList(listFavContainer, favoriteShowList); 
 
         // LOCAL STORAGE (SET)
         localStorage.setItem('settedFavShows', JSON.stringify(favoriteShowList));
-    }   
+    }
 }
 
+// Borrar todo
 function handleClearAll(event) {
     event.preventDefault();
 
     listFavContainer.innerHTML = '';
     favoriteShowList = [];
 
-    const favoriteStyleOwners = document.querySelectorAll('.favoriteStyle')
-    favoriteStyleOwners.forEach(owner => {
-        owner.classList.remove('favoriteStyle');
-    });
+    const highlightFavOwners = document.querySelectorAll('.highlightFav')
+    highlightFavOwners.forEach(owner => owner.classList.remove('highlightFav'));
 
     localStorage.setItem('settedFavShows', JSON.stringify(favoriteShowList));
 }
 
-// EVENT / LISTENER ------------------------
+// EVENTS / LISTENERS ------------------------------------------------------
 searchBtn.addEventListener('click', handleSearch);
-listShowContainer.addEventListener('click', handleFavorite);
+
+listShowContainer.addEventListener('click', handleManageFavorites);
+listFavContainer.addEventListener('click', handleManageFavorites);
+
 clearAllBtn.addEventListener('click', handleClearAll);
-//clearAll
