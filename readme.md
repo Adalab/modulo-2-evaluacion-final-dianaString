@@ -37,7 +37,7 @@ des/marcar las series como favoritas y guardarlas en local storage.
 - [x] Crear un botón al final de la lista de fav que los borra todos a la vez
 
 #### 6. Afinar la maquetación
-- [ ] Dejarlo todo bonito con css
+- [x] Dejarlo todo bonito con css
 
 ### Entrega
 *El límite de entrega es el **lunes 2 de octubre a las 14:00**.*

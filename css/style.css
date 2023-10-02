@@ -1,27 +1,236 @@
+* {margin: 0; padding: 0; box-sizing: border-box;}
+
+html { 
+    font-family: Arial, Helvetica, sans-serif; 
+    font-size: 62.5%;
+    padding-inline: 2rem;
+    background-color: #c6baaa;
+    color: #1f1f1f;
+}
+
+/* --------------------- HEADER --------------------- */
+.header {
+    /* text-align: center; */
+    padding: 1rem;
+}
+
+.title {
+    font-size: 4.5rem;
+    font-weight: 800;
+    text-align: center;
+}
+
+/* ---------------------- MAIN ---------------------- */
 .main {
     display: flex;
-    gap: 50px;
+    justify-content: center;
+/*     gap: 50px; */
+    width: 100%;
 }
 
-.searchFavSection {
-    background-color: antiquewhite;
+/* ----------------- AMBAS SECCIONES ----------------- */
+.searchFavSection, .showListSection{
+    padding: 1.5rem;
+    padding-top: 2rem;
+    margin-bottom: 2rem;
 }
 
+/* ------------- SECCIÓN LISTA DE SERIES ------------- */
 .showListSection {
-    background-color: aliceblue;
+    background-color: #2c2c2c;
+    width: 100%;
+    max-width: 1200px;
+    padding-inline: 5rem;
+    border-radius: 0px 10px 10px 0px;
+
+    height: 800px;
+    overflow-y: scroll; 
+    overflow-x: hidden;
+
+/* ----------- (la barra de scroll) ----------- */
+    scrollbar-width: thin;
+    scrollbar-color: #141414 ;
+}
+.showListSection::-webkit-scrollbar {
+    background-color: #141414;
+    width: 13px; 
+}
+.showListSection::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom, hsla(24, 86%, 55%, 0.6) 0%, hsla(24, 86%, 55%, 0.3) 100%);
+    margin: 2px;
+    border: 4px solid #1b1b1b;
+    border-radius: 5rem;
+}
+
+li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+ .listShowContainer {
+    list-style-type: none;
+    
+    display: grid;
+    row-gap: 2rem;
+    column-gap: 2rem;
+    grid-template-columns: repeat(auto-fill, minmax(25rem, 1fr));
+}
+
+.listShowContainer .highlightFav {
+    color: rgba(239,120,40,1) ;
+    background: linear-gradient(to bottom, hsla(24, 86%, 55%, 0.5) 0%, rgba(239,120,40,0) 100%);
+    border: 1px solid rgba(239,120,40,1); 
 }
 
 .card {
+    color: #c6baaa;
+    width: 40rem;
     padding: 10px;
-    background-color: cadetblue;
-    margin-bottom: 10px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    border-radius: 1rem;
 }
 
 img {
     display: block;
+    border-radius: 1rem;
+    box-shadow: 0px 6px 12px 0px rgba(0,0,0,0.75);
 }
 
-.js-listShowContainer .highlightFav {
-    background-color: black ;
-    color: white ;
+.showTitle {
+    margin-top: 1.5rem;
+    font-size: 2rem;
+}
+
+
+/* ------------- SECCIÓN BÚSQUEDA Y FAVORITOS ------------- */
+.searchFavSection { 
+    background-color: #ef7828;
+    border-radius: 10px 0px 0px 10px;
+    display: flex;
+    flex-direction: column;
+
+}
+
+/* ------------ (Búsqueda) ----------- */
+
+.searchText, .searchBtn{
+    padding-block: 1rem;
+    color: rgb(255, 235, 222);
+    border: none;
+    border-radius: .4rem; 
+    cursor: text;
+}
+
+.searchText{
+    /* border: 2px solid rgba(255, 129, 45, 0.897) ; */
+    background: linear-gradient(to bottom, hsla(24, 77%, 35%, 0.8) 0%, hsla(24, 77%, 35%, 0.4) 100%);
+
+    padding-left: 1rem;
+    margin-bottom: 1rem;
+}
+
+.searchText::placeholder{
+    color: rgb(255, 235, 222);
+}
+
+.searchBtn{
+    background-color: rgb(0, 0, 0);
+
+    width: 12rem;
+    border: none;
+    border-radius: 2rem; 
+    cursor: pointer;
+    margin-inline: auto;
+}
+
+
+/* ----------- (Favoritos) ----------- */
+
+.listFavContainer {
+    width: 35rem;
+    list-style-type: none;
+    padding-block: 2rem;
+    height: 550px;
+    overflow-y: scroll; 
+    overflow-x: hidden;
+
+/* ----------- (la barra de scroll) ----------- */
+    scrollbar-width: thin;
+}
+.listFavContainer::-webkit-scrollbar {
+    background-color: #ef7828;
+    width: 20px; 
+}
+.listFavContainer::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom, hsl(0, 0%, 0%) 0%, #242424 100%);
+    margin: 2px;
+    border: 8px solid #ef7828;
+    border-radius: 5rem;
+}
+
+
+.favTitle{
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.listFavContainer .card {
+    padding: 1rem;
+    color: #2c2c2c;
+    border: 1px solid rgba(255, 168, 110, 0.815) ;
+    background: linear-gradient(135deg, hsla(24, 86%, 45%, 0.678) 0%, hsla(24, 100%, 72%, 0.24) 100%);
+    box-shadow: 0px 6px 16px -7px rgba(0,0,0,0.75);
+    border-radius: 1.2rem;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between;
+}
+
+.listFavContainer img {
+    display: block;
+    width: 7rem;
+    box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.75);
+    order: 1;
+}
+
+.listFavContainer .showTitle {
+    color: rgb(23, 23, 23);
+    margin-top: 0rem;
+    font-size: 2rem;
+    order: 2;
+}
+
+.xButtonStyle {
+    width: 2.2rem; 
+    height: 2.2rem; 
+    background-color: rgb(255, 166, 106);
+    background-image: url("https://i.ibb.co/D9Sk2fk/remove.png");
+    background-size: cover;
+    color: transparent;
+    border: none;
+    border-radius: 50%; 
+    cursor: pointer;
+    padding: 0;
+    order: 3;
+    align-self: flex-start;
+}    
+
+.clearAllBtn {
+    color: rgb(255, 235, 222);
+    background-color: rgb(0, 0, 0);
+    width: 12rem;
+    padding-block: 1rem;
+    /* padding: 1rem 1.55rem 1rem 1.4rem; */
+    border: none;
+    border-radius: 2rem; 
+    cursor: pointer;
+    margin-inline: auto;
 }

@@ -84,6 +84,7 @@ function renderList(container, itemList) {
         articleElement.appendChild(imgElement);
 
         const h3Element = document.createElement('h3');
+        h3Element.classList.add('showTitle');
         h3Element.textContent = item.show.name;
         articleElement.appendChild(h3Element);
     }

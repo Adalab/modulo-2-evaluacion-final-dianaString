@@ -7,26 +7,26 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <header>
-        <h1>Buscador de series</h1>
+    <header class="header">
+        <h1 class="title">Buscador de series</h1>
     </header>
     <main class="main">
         
         <section class="searchFavSection">
             <!-- Buscador -->
-            <input type="text" value="" class="js-searchText">
-            <input type="submit" value="Search" class="js-searchBtn">
+            <input type="text" value="" placeholder="America" class="js-searchText searchText">
+            <input type="submit" value="Buscar" class="js-searchBtn searchBtn">
 
             <!-- Favoritos -->
-            <h2>Mis series favoritas</h2>
-            <ul class="js-listFavContainer"></ul>
+            <h2 class="favTitle">Mis series favoritas</h2>
+            <ul class="listFavContainer js-listFavContainer"></ul>
             
-            <input type="submit" value="Clear all" class="js-clearAllBtn">
+            <input type="submit" value="Vaciar" class="js-clearAllBtn clearAllBtn">
         </section>
 
         <section class="showListSection">
             <!-- Lista de series -->
-            <ul class="js-listShowContainer"></ul>
+            <ul class="listShowContainer js-listShowContainer"></ul>
             
         </section>
 
