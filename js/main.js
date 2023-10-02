@@ -1,173 +1,163 @@
 'use strict'
 
-// VARIABLES --------------------------------
+// VARIABLES DEL HTML ------------------------------------------------------
 
-// Del HTML
-const searchText = document.querySelector('.js-searchText'); // input (texto)
-const searchBtn = document.querySelector('.js-searchBtn');   // input (input)
+// Buscador
+const searchText = document.querySelector('.js-searchText'); 
+const searchBtn = document.querySelector('.js-searchBtn');   
 
-const listContainer = document.querySelector('.js-listContainer'); // ul (contenido)
-const listFavorites = document.querySelector('.js-listFavorites'); // ul (favoritos)
+// Container (contenedor de las listas)
+const listShowContainer = document.querySelector('.js-listShowContainer'); 
+const listFavContainer = document.querySelector('.js-listFavContainer');  
 
-// Arrays
-let TVshowsList = [];       // Array principal (= dataAPI)
-let favoriteShowList = [];  // Lista de favoritos (aparece en handleFavorite())
+// Borrar lista de favoritos
+const clearAllBtn = document.querySelector('.js-clearAllBtn'); 
 
-// FUNCIONES --------------------------------
+// ARRAYS (las listas) -----------------------------------------------------
 
-// fetch
+let TVshowsList = [];      
+let favoriteShowList = []; 
+
+// LOCAL STORAGE (GET) -----------------------------------------------------    
+
+const favoriteShowsLS = JSON.parse(localStorage.getItem("settedFavShows"));
+
+if (favoriteShowsLS !== null) {
+    favoriteShowList = favoriteShowsLS;
+    renderList(listFavContainer, favoriteShowList);
+    getApiData();
+} else {
+    getApiData();
+}
+
+// FUNCIONES ---------------------------------------------------------------
+
+// Fetch
 function getApiData(){
 
-    // Url
-    const searchValue = searchText.value; //searchText.value
+    const searchValue = searchText.value;
     const API_URL = `//api.tvmaze.com/search/shows?q=${searchValue}`;
-    console.log('API_URL', API_URL)
 
     fetch(API_URL)
-        .then(response => response.json())
-        .then(data => {
-            TVshowsList = data;
-            // console.log('TVshowsList',TVshowsList)
-            renderTVshowList(TVshowsList);
-            renderFavoriteShows(favoriteShowList);
-        })
-};
-getApiData();
+        .then((response) => response.json())
+        .then((dataAPI) => {
+            TVshowsList = dataAPI;
+            renderList(listShowContainer, TVshowsList);
+    });
+}
 
-// renderizar cada serie de TVshowsList
-function renderTVshowList(TVshowsList){
+// Renderiza cualquier lista: TVshowsList, filteredTVShows o favoriteShowList
+function renderList(container, itemList) {
+    container.textContent = '';
 
-    listContainer.textContent = '';
-
-    // console.log(TVshowsList[0].show.name)
-    // ul > li > article > img y título
-
-    for(const TVshow of TVshowsList){
-
-        // Añadir un li
+    for (const item of itemList) {
+        // ul > li > article > + img + h3
+        
         const liElement = document.createElement('li');
-        listContainer.appendChild(liElement); // listContainer = ulElement
+        container.appendChild(liElement);
 
-        // Añadir un article (card)
         const articleElement = document.createElement('article');
         articleElement.classList.add('card');
-        articleElement.id = TVshow.show.id;
+        articleElement.id = item.show.id;        
         liElement.appendChild(articleElement);
 
-        // Añadir una imagen
+        // Si el item está en la lista de fav. añade la clase Highlight (highlightFav) 
+        if (favoriteShowList.some(favshow => favshow.show.id === item.show.id)) {
+            articleElement.classList.add('highlightFav');
+        }
+
+        // Si el container es el de favoritos crea un button (x)
+        if(container === listFavContainer){
+            const xButton = document.createElement('button');
+            xButton.classList.add('xButtonStyle');
+            xButton.textContent = 'x';
+            xButton.id = item.show.id;      
+            articleElement.appendChild(xButton);
+        }
+
         const imgElement = document.createElement('img');
-        if( TVshow.show.image === null ){
-            imgElement.src = 'https://fakeimg.pl/210x295?text=TV'
+        if (item.show.image === null) {
+            imgElement.src = 'https://fakeimg.pl/210x295?text=TV';
         } else {
-            imgElement.src = TVshow.show.image.medium;
+            imgElement.src = item.show.image.medium;
         }
         articleElement.appendChild(imgElement);
 
-        // Añadir un h3 (título)
         const h3Element = document.createElement('h3');
-        h3Element.textContent = TVshow.show.name;
-        articleElement.appendChild(h3Element);
-    }
-};
-// renderizar cada serie favorita de favoriteShowList
-function renderFavoriteShows(favoriteShowList){
-    listFavorites.textContent = '';
-
-    for(const favTVshow of favoriteShowList){
-
-        // Añadir un li
-        const liElement = document.createElement('li');
-        listFavorites.appendChild(liElement); // listContainer = ulElement
-
-        // Añadir un article (card)
-        const articleElement = document.createElement('article');
-        articleElement.classList.add('card');
-        articleElement.id = favTVshow.show.id;
-        liElement.appendChild(articleElement);
-
-        // Añadir una imagen
-        const imgElement = document.createElement('img');
-        if( favTVshow.show.image === null ){
-            imgElement.src = 'https://fakeimg.pl/210x295?text=TV'
-        } else {
-            imgElement.src = favTVshow.show.image.medium;  
-        }
-        articleElement.appendChild(imgElement);
-
-        // Añadir un h3 (título)
-        const h3Element = document.createElement('h3');
-        h3Element.textContent = favTVshow.show.name;
+        h3Element.textContent = item.show.name;
         articleElement.appendChild(h3Element);
     }
 }
-// (¿refactorizar más adelante?)
 
-
-// HANDLERS --------------------------------
+// HANDLERS ----------------------------------------------------------------
 
 // Buscador
-function handleSearch(event){
-
+function handleSearch(event) {
     event.preventDefault();
-    getApiData()
+    getApiData(); // para enlazar la Api con la búsqueda
     const searchValue = searchText.value;
 
     const filteredTVShows = TVshowsList
-        .filter(TVshow => TVshow.show.name  // Filtra los nombres de los shows en TVshowsList
-            .toLowerCase()                  // Llamada al método que convierte texto en minúsc.
-            .includes(searchValue           // Llamada al método, ¿su parám. se encuentra en el show?
-                .toLowerCase())             // Llamada de nuevo al met. minúsc. pero para el texto en searchValue
-        );   
+        .filter(TVshow => TVshow.show.name.toLowerCase()
+            .includes(searchValue.toLowerCase()));
 
-    renderTVshowList(filteredTVShows);   // en lugar de TVshowsList porque filteredTVShows muestra lo filtrado
+    renderList(listShowContainer, filteredTVShows);
 }
 
 // Favoritos
-function handleFavorite(event){
+function handleManageFavorites(event) {
 
-    if (event.target.closest('article')) { 
-    // closest() tiene en cuenta los hijos al contrario que .tagName
+    const clickedElement = event.target; 
 
-        // event.target.closest('article) siempre devuelve article, independientemente del hijo
-        const clickedArticle = event.target.closest('article');
+    const clickedArticle = clickedElement.closest('article'); // closest() -> él mismo y sus hijos
+    const clickedXbtn = clickedElement.closest('button');
 
-        // CREAR LA LISTA DE FAVORITOS (mediante IDs) --------------
+    if ((event.currentTarget === listShowContainer && clickedArticle) ||
+        (event.currentTarget === listFavContainer && clickedXbtn)) {
+            
+        const clickedShowID = parseInt(clickedArticle.id);
+        let foundShow = TVshowsList.find(TVshow => TVshow.show.id === clickedShowID);
+        const indexFav = favoriteShowList.findIndex(TVshow => TVshow.show.id === clickedShowID);
 
-        // Obteniene el ID del elemento en el que se hizo clic
-        const idShowClicked = parseInt(clickedArticle.id);
+        // selecciona en el container del listado de series aquellas que sean favoritos
+        const HighlightedTVShows = listShowContainer.querySelector(`article[id="${clickedShowID}"]`);
 
-        // Busca el objeto/película en la lista de películas cuyo ID coincida con la ID de clickedArticle
-        let foundShow = TVshowsList.find(TVshow => TVshow.show.id === idShowClicked); 
-
-        // indexFav verifica si la ID aparece en la lista de favoritos, si vale -1 no se encuentra
-        const indexFav = favoriteShowList.findIndex(TVshow => TVshow.show.id === idShowClicked)
-
-        // Se rellena la lista de favoritos
         if (indexFav === -1) {
-            favoriteShowList.push(foundShow);
+            favoriteShowList.unshift(foundShow);
+
+            HighlightedTVShows.classList.add('highlightFav');
+
         } else {
             favoriteShowList.splice(indexFav, 1);
+
+            if(HighlightedTVShows){ 
+                HighlightedTVShows.classList.remove('highlightFav');
+            }
         }
+        renderList(listFavContainer, favoriteShowList); 
 
-        // console.log('idShowClicked',idShowClicked);
-        // console.log('foundShow',foundShow);
-        // console.log('indexFav',indexFav);
-        // console.log('favoriteShowList', favoriteShowList);
-
-        // DESTACAR LOS FAVORITOS (en la lista) --------------------
-        
-        if(!clickedArticle.classList.contains('favoriteStyle') &&
-        indexFav === -1){ // para evitar que se destaque cuando no debe
-                          // aunque los destacados aún no se mantienen al hacer nueva búsqueda
-            clickedArticle.classList.add('favoriteStyle')
-        } else { clickedArticle.classList.remove('favoriteStyle')}
-        
-        console.log('indexFav',indexFav);
-
+        // LOCAL STORAGE (SET)
+        localStorage.setItem('settedFavShows', JSON.stringify(favoriteShowList));
     }
-    renderFavoriteShows(favoriteShowList)
 }
 
-// EVENT / LISTENER
+// Borrar todo
+function handleClearAll(event) {
+    event.preventDefault();
+
+    listFavContainer.innerHTML = '';
+    favoriteShowList = [];
+
+    const highlightFavOwners = document.querySelectorAll('.highlightFav')
+    highlightFavOwners.forEach(owner => owner.classList.remove('highlightFav'));
+
+    localStorage.setItem('settedFavShows', JSON.stringify(favoriteShowList));
+}
+
+// EVENTS / LISTENERS ------------------------------------------------------
 searchBtn.addEventListener('click', handleSearch);
-listContainer.addEventListener('click', handleFavorite);
+
+listShowContainer.addEventListener('click', handleManageFavorites);
+listFavContainer.addEventListener('click', handleManageFavorites);
+
+clearAllBtn.addEventListener('click', handleClearAll);

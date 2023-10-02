@@ -23,18 +23,18 @@ des/marcar las series como favoritas y guardarlas en local storage.
 - [x] Las series fav. se mantienen a la izda. aunque se realice otra búsqueda
 
 #### 4. Almacenamiento local:
-- [ ] Almacenar el listado de favoritos en el LocalStorage
-- [ ] Al recargar la página debería seguir mostrándose  
+- [x] Almacenar el listado de favoritos en el LocalStorage
+- [x] Al recargar la página debería seguir mostrándose  
 
 <br>
 
 #### BONUS
 #### 5. Borrar favoritos:
-- [ ] Al hacer click sobre el icono 'x' al lado de cada favorito, se borra
-- [ ] Debe borrarse el favorito clicado de la lista y del localStorage
-- [ ] También, añadir/quitar como favorito al clicar sobre una serie de la lista
-- [ ] Al realizar una nueva búsqueda, las series ya favoritas aparecen destacadas
-- [ ] Crear un botón al final de la lista de fav que los borra todos a la vez
+- [x] Al hacer click sobre el icono 'x' al lado de cada favorito, se borra
+- [x] Debe borrarse el favorito clicado de la lista y del localStorage
+- [x] También, añadir/quitar como favorito al clicar sobre una serie de la lista
+- [x] Al realizar una nueva búsqueda, las series ya favoritas aparecen destacadas
+- [x] Crear un botón al final de la lista de fav que los borra todos a la vez
 
 #### 6. Afinar la maquetación
 - [ ] Dejarlo todo bonito con css
