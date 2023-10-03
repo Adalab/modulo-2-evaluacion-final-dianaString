@@ -13,6 +13,8 @@ const listFavContainer = document.querySelector('.js-listFavContainer');
 // Borrar lista de favoritos
 const clearAllBtn = document.querySelector('.js-clearAllBtn'); 
 
+const log = document.querySelector('.js-log'); 
+
 // ARRAYS (las listas) -----------------------------------------------------
 
 let TVshowsList = [];      
@@ -42,6 +44,7 @@ function getApiData(){
         .then((response) => response.json())
         .then((dataAPI) => {
             TVshowsList = dataAPI;
+            console.log('TVshowsList', TVshowsList)
             renderList(listShowContainer, TVshowsList);
     });
 }
@@ -87,6 +90,10 @@ function renderList(container, itemList) {
         h3Element.classList.add('showTitle');
         h3Element.textContent = item.show.name;
         articleElement.appendChild(h3Element);
+
+        const scheduleP = document.createElement('p');
+        scheduleP.textContent = item.show.schedule.time;
+        articleElement.appendChild(scheduleP);
     }
 }
 
@@ -96,13 +103,15 @@ function renderList(container, itemList) {
 function handleSearch(event) {
     event.preventDefault();
     getApiData(); // para enlazar la Api con la búsqueda
-    const searchValue = searchText.value;
+    /* const searchValue = searchText.value;
 
     const filteredTVShows = TVshowsList
         .filter(TVshow => TVshow.show.name.toLowerCase()
             .includes(searchValue.toLowerCase()));
 
-    renderList(listShowContainer, filteredTVShows);
+    console.log('filteredTVShows', filteredTVShows);
+
+    renderList(listShowContainer, filteredTVShows); */
 }
 
 // Favoritos
@@ -155,6 +164,24 @@ function handleClearAll(event) {
     localStorage.setItem('settedFavShows', JSON.stringify(favoriteShowList));
 }
 
+
+function handleLog(event) {
+    event.preventDefault();
+
+    
+    for (const TVshow of TVshowsList) {
+        console.log(TVshow.show.name);
+    }
+    
+
+    // Lista TVshowsList
+    /* 
+            
+
+    */
+
+}
+
 // EVENTS / LISTENERS ------------------------------------------------------
 searchBtn.addEventListener('click', handleSearch);
 
@@ -162,3 +189,5 @@ listShowContainer.addEventListener('click', handleManageFavorites);
 listFavContainer.addEventListener('click', handleManageFavorites);
 
 clearAllBtn.addEventListener('click', handleClearAll);
+
+log.addEventListener('click', handleLog);
